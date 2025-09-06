@@ -1,103 +1,88 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Sample demo data
-const demoClasses = [
-  { id: 1, classcode: 'CS101', classname: 'Introduction to Programming' },
-  { id: 2, classcode: 'MATH201', classname: 'Calculus I' },
-  { id: 3, classcode: 'ENG301', classname: 'Advanced English Literature' },
-  { id: 4, classcode: 'PHY102', classname: 'Physics Fundamentals' },
-  { id: 5, classcode: 'BIO202', classname: 'Molecular Biology' },
+const demoData = [
+  { id: 1, Examcode: 'EX001', ExamName: 'Midterm Exam' },
+  { id: 2, Examcode: 'EX002', ExamName: 'Final Exam' },
+  { id: 3, Examcode: 'EX003', ExamName: 'Quiz 1' },
+  { id: 4, Examcode: 'EX004', ExamName: 'Quiz 2' },
+  { id: 5, Examcode: 'EX005', ExamName: 'Semester Test' },
+  { id: 6, Examcode: 'EX006', ExamName: 'Practical Exam' },
+  { id: 7, Examcode: 'EX007', ExamName: 'Mock Test' },
+  { id: 8, Examcode: 'EX008', ExamName: 'Entrance Exam' },
+  { id: 9, Examcode: 'EX009', ExamName: 'Supplementary Exam' },
+  { id: 10, Examcode: 'EX010', ExamName: 'Review Test' },
+  { id: 11, Examcode: 'EX011', ExamName: 'Assessment 1' },
+  { id: 12, Examcode: 'EX012', ExamName: 'Assessment 2' },
 ];
 
-const ClassTableView = () => {
+const Examinationview = () => {
   const navigate = useNavigate();
-  const [classes] = useState(demoClasses);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
-  const [filteredClasses, setFilteredClasses] = useState(demoClasses);
 
   // Options for items per page
   const itemsPerPageOptions = [10, 20, 50, 'All'];
 
-  // Handle adding a new class
-  const handleAdd = () => {
-    navigate('/master/classmaster/add');
-  };
+  // Calculate filtered data based on search term
+  const filteredData = demoData.filter(
+    (item) =>
+      Object.values(item).some((value) =>
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+  );
 
-  // Handle editing a class
+  // Calculate pagination details
+  const totalItems = filteredData.length;
+  const totalPages = itemsPerPage === 'All' ? 1 : Math.ceil(totalItems / itemsPerPage);
+  const startIndex = itemsPerPage === 'All' ? 0 : (currentPage - 1) * itemsPerPage;
+  const currentItems =
+    itemsPerPage === 'All'
+      ? filteredData
+      : filteredData.slice(startIndex, startIndex + itemsPerPage);
+
   const handleEdit = (id) => {
-    console.log(`Edit class with ID: ${id}`);
-    // Implement edit logic (e.g., open a modal with ClassMaster form pre-filled)
+    console.log(`Edit examination record with ID: ${id}`);
+    // Add your edit logic here
   };
 
-  // Handle deleting a class
   const handleDelete = (id) => {
-    console.log(`Delete class with ID: ${id}`);
-    // Implement delete logic
+    console.log(`Delete examination record with ID: ${id}`);
+    // Add your delete logic here
   };
 
-  // Handle search
+  const handleAdd = () => {
+    navigate('/master/examination/add');
+  };
+
   const handleSearch = () => {
-    const filtered = classes.filter(
-      (cls) =>
-        cls.classcode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cls.classname.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredClasses(filtered);
+    console.log(`Search for: ${searchTerm}`);
     setCurrentPage(1); // Reset to first page on search
   };
 
-  // Handle search input change
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    if (e.target.value === '') {
-      setFilteredClasses(classes); // Reset to all classes if search is cleared
-      setCurrentPage(1);
-    }
-  };
-
-  // Handle Enter key press for search
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  // Calculate pagination details
-  const totalItems = filteredClasses.length;
-  const totalPages = itemsPerPage === 'All' ? 1 : Math.ceil(totalItems / itemsPerPage);
-  const startIndex = itemsPerPage === 'All' ? 0 : (currentPage - 1) * itemsPerPage;
-  const currentRows =
-    itemsPerPage === 'All'
-      ? filteredClasses
-      : filteredClasses.slice(startIndex, startIndex + itemsPerPage);
-
-  // Change page
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  // Handle items per page change
   const handleItemsPerPageChange = (e) => {
-    const value = e.target.value === 'All' ? 'All' : parseInt(e.target.value);
-    setItemsPerPage(value);
-    setCurrentPage(1); // Reset to first page
+    const value = e.target.value;
+    setItemsPerPage(value === 'All' ? 'All' : parseInt(value));
+    setCurrentPage(1); // Reset to first page when items per page changes
   };
 
   return (
     <div className="max-w-8xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Class Master</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Examination Master</h2>
         <div className="flex space-x-4">
           <div className="flex items-center">
             <input
               type="text"
-              placeholder="Search classes..."
+              placeholder="Search examinations..."
               value={searchTerm}
-              onChange={handleSearchChange}
-              onKeyPress={handleKeyPress}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="px-3 py-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
             />
             <button
@@ -119,25 +104,25 @@ const ClassTableView = () => {
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class Code</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Exam Code</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Exam Name</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentRows.map((cls) => (
-              <tr key={cls.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-gray-800">{cls.classcode}</td>
-                <td className="px-4 py-2 text-gray-800">{cls.classname}</td>
+            {currentItems.map((item) => (
+              <tr key={item.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 text-gray-800">{item.Examcode}</td>
+                <td className="px-4 py-2 text-gray-800">{item.ExamName}</td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => handleEdit(cls.id)}
+                    onClick={() => handleEdit(item.id)}
                     className="mr-2 bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(cls.id)}
+                    onClick={() => handleDelete(item.id)}
                     className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   >
                     Delete
@@ -203,4 +188,4 @@ const ClassTableView = () => {
   );
 };
 
-export default ClassTableView;
+export default Examinationview;

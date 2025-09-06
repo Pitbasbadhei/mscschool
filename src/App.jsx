@@ -17,6 +17,28 @@ import Sectionmaster from './Pages/Master/Sectionmaster/add';
 import Sectionmasterview from './Pages/Master/Sectionmaster/view';
 import Sectionmastermodify from './Pages/Master/Sectionmaster/modify';
 
+import StudentMasterAdd  from './Pages/Master/Studentmaster/add';
+import StudentMasterView  from './Pages/Master/Studentmaster/view';   
+import StudentMasterModify  from './Pages/Master/Studentmaster/modify';
+
+import Feemastervew from './Pages/Master/Feemaster/view';
+import FeeMasterAdd from './Pages/Master/Feemaster/add';
+import FeeMasterModify from './Pages/Master/Feemaster/modify';
+
+import Examinationview from './Pages/Master/Examination/view';
+import ExaminationAdd from './Pages/Master/Examination/add';
+import ExaminationModify from './Pages/Master/Examination/modify';
+
+import Subjectmasterview from './Pages/Master/Subjectmaster/view';
+import Subjectmasteradd from './Pages/Master/Subjectmaster/add';
+import Subjectmastermodify from './Pages/Master/Subjectmaster/modify';
+
+import Convmasterview from './Pages/Master/ConvMaster/view';
+import Convmasteradd from './Pages/Master/ConvMaster/add';
+import Convmastermodify from './Pages/Master/ConvMaster/modify';
+
+
+
 
 const App = () => {
   return (
@@ -34,6 +56,7 @@ const App = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/master" element={<Master />} />
+
             <Route path="/master/classmaster/add" element={<ClassMaster />} />
             <Route path="/master/classmaster/view" element={<ClassMasterview />} />
             <Route path="/master/classmaster/modify" element={<classmasterModify />} />
@@ -42,7 +65,27 @@ const App = () => {
             <Route path="/master/sectionmaster/view" element={<Sectionmasterview />} />
             <Route path="/master/sectionmaster/modify" element={<Sectionmastermodify />} />
 
+            <Route path="/master/Studentmaster/add" element={<StudentMasterAdd/>} /> 
+            <Route path="/master/Studentmaster/view" element={<StudentMasterView />} />
+            <Route path="/master/Studentmaster/modify" element={<StudentMasterModify />} />
 
+            <Route path="/master/FeeMaster/view" element={<Feemastervew />} />
+            <Route path="/master/Feemaster/add" element={<FeeMasterAdd />} />
+            <Route path="/master/Feemaster/modify" element={<FeeMasterModify />} />
+
+             <Route path="/master/Examination/view" element={<Examinationview />} />  
+            <Route path="/master/Examination/add" element={<ExaminationAdd />} />
+            <Route path="/master/Examination/modify" element={<ExaminationModify />} />
+
+            <Route path="/master/Subjectmaster/view" element={<Subjectmasterview />} />
+            <Route path="/master/Subjectmaster/add" element={<Subjectmasteradd />} />
+            <Route path="/master/Subjectmaster/modify" element={<Subjectmastermodify />} />
+
+            <Route path="/master/convMaster/view" element={<Convmasterview />} />
+            <Route path="/master/convMaster/add" element={<Convmasteradd />} />
+            <Route path="/master/convMaster/modify" element={<Convmastermodify />} />
+
+         
             <Route path="/entry" element={<Entry />} />
             <Route path="/library" element={<Library />} />
             <Route path="/hostel" element={<Hostel />} />

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 
 const ClassMaster = () => {
@@ -50,16 +49,16 @@ const ClassMaster = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center p-4">
-      <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-cyan-400 mb-6">
+    <div className="min-h-screen bg-white text-gray-900 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center text-cyan-600 mb-6">
           Create Class
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="classcode"
-              className="block text-sm font-medium text-gray-300"
+              className="block text-sm font-medium text-gray-700"
             >
               Class Code
             </label>
@@ -69,9 +68,9 @@ const ClassMaster = () => {
               name="classcode"
               value={formData.classcode}
               onChange={handleChange}
-              className={`mt-1 w-full px-3 py-2 bg-gray-700 border ${
-                errors.classcode ? 'border-red-500' : 'border-gray-600'
-              } rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent`}
+              className={`mt-1 w-full px-3 py-2 bg-gray-100 border ${
+                errors.classcode ? 'border-red-500' : 'border-gray-300'
+              } rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent`}
               placeholder="e.g., C001"
             />
             {errors.classcode && (
@@ -81,7 +80,7 @@ const ClassMaster = () => {
           <div>
             <label
               htmlFor="classname"
-              className="block text-sm font-medium text-gray-300"
+              className="block text-sm font-medium text-gray-700"
             >
               Class Name
             </label>
@@ -91,9 +90,9 @@ const ClassMaster = () => {
               name="classname"
               value={formData.classname}
               onChange={handleChange}
-              className={`mt-1 w-full px-3 py-2 bg-gray-700 border ${
-                errors.classname ? 'border-red-500' : 'border-gray-600'
-              } rounded-md text-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent`}
+              className={`mt-1 w-full px-3 py-2 bg-gray-100 border ${
+                errors.classname ? 'border-red-500' : 'border-gray-300'
+              } rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent`}
               placeholder="e.g., Class 10A"
             />
             {errors.classname && (

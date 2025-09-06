@@ -1,103 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Sample demo data
-const demoClasses = [
-  { id: 1, classcode: 'CS101', classname: 'Introduction to Programming' },
-  { id: 2, classcode: 'MATH201', classname: 'Calculus I' },
-  { id: 3, classcode: 'ENG301', classname: 'Advanced English Literature' },
-  { id: 4, classcode: 'PHY102', classname: 'Physics Fundamentals' },
-  { id: 5, classcode: 'BIO202', classname: 'Molecular Biology' },
+const demoData = [
+  { id: 1, SubjectCode: 'MATH101', SubjectName: 'Mathematics', FullMark: 100, PassMark: 40, AddTotal: true, OrderNo: 1, ClassName: 'Class X', ExamName: 'Midterm Exam' },
+  { id: 2, SubjectCode: 'ENG102', SubjectName: 'English', FullMark: 100, PassMark: 40, AddTotal: true, OrderNo: 2, ClassName: 'Class X', ExamName: 'Final Exam' },
+  { id: 3, SubjectCode: 'SCI103', SubjectName: 'Science', FullMark: 100, PassMark: 40, AddTotal: true, OrderNo: 3, ClassName: 'Class XI', ExamName: 'Midterm Exam' },
+  { id: 4, SubjectCode: 'HIS104', SubjectName: 'History', FullMark: 80, PassMark: 32, AddTotal: false, OrderNo: 4, ClassName: 'Class XI', ExamName: 'Final Exam' },
+  { id: 5, SubjectCode: 'GEO105', SubjectName: 'Geography', FullMark: 80, PassMark: 32, AddTotal: false, OrderNo: 5, ClassName: 'Class X', ExamName: 'Midterm Exam' },
+  { id: 6, SubjectCode: 'PHY106', SubjectName: 'Physics', FullMark: 100, PassMark: 40, AddTotal: true, OrderNo: 6, ClassName: 'Class XII', ExamName: 'Practical Exam' },
+  { id: 7, SubjectCode: 'CHE107', SubjectName: 'Chemistry', FullMark: 100, PassMark: 40, AddTotal: true, OrderNo: 7, ClassName: 'Class XII', ExamName: 'Practical Exam' },
 ];
 
-const ClassTableView = () => {
+const SubjectMasterView = () => {
   const navigate = useNavigate();
-  const [classes] = useState(demoClasses);
+  const [subjects, setSubjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
-  const [filteredClasses, setFilteredClasses] = useState(demoClasses);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  // Options for items per page
   const itemsPerPageOptions = [10, 20, 50, 'All'];
 
-  // Handle adding a new class
-  const handleAdd = () => {
-    navigate('/master/classmaster/add');
-  };
+  useEffect(() => {
+    // Simulated API call
+    setSubjects(demoData);
+  }, []);
 
-  // Handle editing a class
-  const handleEdit = (id) => {
-    console.log(`Edit class with ID: ${id}`);
-    // Implement edit logic (e.g., open a modal with ClassMaster form pre-filled)
-  };
+  const filteredData = subjects.filter(
+    (item) =>
+      Object.values(item).some((value) =>
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+  );
 
-  // Handle deleting a class
-  const handleDelete = (id) => {
-    console.log(`Delete class with ID: ${id}`);
-    // Implement delete logic
-  };
-
-  // Handle search
-  const handleSearch = () => {
-    const filtered = classes.filter(
-      (cls) =>
-        cls.classcode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cls.classname.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredClasses(filtered);
-    setCurrentPage(1); // Reset to first page on search
-  };
-
-  // Handle search input change
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    if (e.target.value === '') {
-      setFilteredClasses(classes); // Reset to all classes if search is cleared
-      setCurrentPage(1);
-    }
-  };
-
-  // Handle Enter key press for search
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  // Calculate pagination details
-  const totalItems = filteredClasses.length;
+  const totalItems = filteredData.length;
   const totalPages = itemsPerPage === 'All' ? 1 : Math.ceil(totalItems / itemsPerPage);
   const startIndex = itemsPerPage === 'All' ? 0 : (currentPage - 1) * itemsPerPage;
-  const currentRows =
+  const currentItems =
     itemsPerPage === 'All'
-      ? filteredClasses
-      : filteredClasses.slice(startIndex, startIndex + itemsPerPage);
+      ? filteredData
+      : filteredData.slice(startIndex, startIndex + itemsPerPage);
 
-  // Change page
+  const handleEdit = (id) => {
+    console.log(`Edit subject record with ID: ${id}`);
+    navigate(`/master/subject/edit/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    console.log(`Delete subject record with ID: ${id}`);
+    setSubjects(subjects.filter((subject) => subject.id !== id));
+  };
+
+  const handleAdd = () => {
+    navigate('/master/subjectmaster/add');
+  };
+
+  const handleSearch = () => {
+    console.log(`Search for: ${searchTerm}`);
+    setCurrentPage(1);
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  // Handle items per page change
   const handleItemsPerPageChange = (e) => {
-    const value = e.target.value === 'All' ? 'All' : parseInt(e.target.value);
-    setItemsPerPage(value);
-    setCurrentPage(1); // Reset to first page
+    const value = e.target.value;
+    setItemsPerPage(value === 'All' ? 'All' : parseInt(value));
+    setCurrentPage(1);
   };
 
   return (
     <div className="max-w-8xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Class Master</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Subject Master</h2>
         <div className="flex space-x-4">
           <div className="flex items-center">
             <input
               type="text"
-              placeholder="Search classes..."
+              placeholder="Search subjects..."
               value={searchTerm}
-              onChange={handleSearchChange}
-              onKeyPress={handleKeyPress}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="px-3 py-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
             />
             <button
@@ -119,25 +101,37 @@ const ClassTableView = () => {
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class Code</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Subject Code</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Subject Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Full Mark</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Pass Mark</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Add to Total</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Order No</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Exam Name</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentRows.map((cls) => (
-              <tr key={cls.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-gray-800">{cls.classcode}</td>
-                <td className="px-4 py-2 text-gray-800">{cls.classname}</td>
+            {currentItems.map((item) => (
+              <tr key={item.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 text-gray-800">{item.SubjectCode}</td>
+                <td className="px-4 py-2 text-gray-800">{item.SubjectName}</td>
+                <td className="px-4 py-2 text-gray-800">{item.FullMark}</td>
+                <td className="px-4 py-2 text-gray-800">{item.PassMark}</td>
+                <td className="px-4 py-2 text-gray-800">{item.AddTotal ? 'Yes' : 'No'}</td>
+                <td className="px-4 py-2 text-gray-800">{item.OrderNo}</td>
+                <td className="px-4 py-2 text-gray-800">{item.ClassName}</td>
+                <td className="px-4 py-2 text-gray-800">{item.ExamName}</td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => handleEdit(cls.id)}
+                    onClick={() => handleEdit(item.id)}
                     className="mr-2 bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(cls.id)}
+                    onClick={() => handleDelete(item.id)}
                     className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   >
                     Delete
@@ -203,4 +197,4 @@ const ClassTableView = () => {
   );
 };
 
-export default ClassTableView;
+export default SubjectMasterView;

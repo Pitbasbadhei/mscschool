@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Sample demo data
+// Sample demo data for students
+const demoStudents = [
+  { id: 1, AdmissionNo: 'STU1234567890', StudentName: 'John Doe', ClassName: 'Introduction to Programming', Section: 'Section A', RollNo: '001' },
+  { id: 2, AdmissionNo: 'STU1234567891', StudentName: 'Jane Smith', ClassName: 'Calculus I', Section: 'Section B', RollNo: '002' },
+  { id: 3, AdmissionNo: 'STU1234567892', StudentName: 'Alice Johnson', ClassName: 'Advanced English Literature', Section: 'Section C', RollNo: '003' },
+  { id: 4, AdmissionNo: 'STU1234567893', StudentName: 'Bob Wilson', ClassName: 'Physics Fundamentals', Section: 'Section D', RollNo: '004' },
+  { id: 5, AdmissionNo: 'STU1234567894', StudentName: 'Emma Brown', ClassName: 'Molecular Biology', Section: 'Section E', RollNo: '005' },
+  { id: 6, AdmissionNo: 'STU1234567895', StudentName: 'Michael Lee', ClassName: 'Web Development', Section: 'Section F', RollNo: '006' },
+  { id: 7, AdmissionNo: 'STU1234567896', StudentName: 'Sarah Davis', ClassName: 'Software Engineering', Section: 'Section G', RollNo: '007' },
+  { id: 8, AdmissionNo: 'STU1234567897', StudentName: 'David Clark', ClassName: 'Artificial Intelligence', Section: 'Section H', RollNo: '008' },
+  { id: 9, AdmissionNo: 'STU1234567898', StudentName: 'Laura Martinez', ClassName: 'Machine Learning', Section: 'Section I', RollNo: '009' },
+  { id: 10, AdmissionNo: 'STU1234567899', StudentName: 'James White', ClassName: 'Computer Networks', Section: 'Section J', RollNo: '010' },
+];
+
+// Sample demo data from ClassTableView and SectionMasterView for reference
 const demoClasses = [
   { id: 1, classcode: 'CS101', classname: 'Introduction to Programming' },
   { id: 2, classcode: 'MATH201', classname: 'Calculus I' },
@@ -10,42 +24,41 @@ const demoClasses = [
   { id: 5, classcode: 'BIO202', classname: 'Molecular Biology' },
 ];
 
-const ClassTableView = () => {
+const sections = [
+  { id: 1, sectionName: 'Section A', classCode: 'CS101', className: 'Introduction to Programming' },
+  { id: 2, sectionName: 'Section B', classCode: 'CS102', className: 'Data Structures' },
+  { id: 3, sectionName: 'Section C', classCode: 'CS103', className: 'Algorithms' },
+  { id: 4, sectionName: 'Section D', classCode: 'CS104', className: 'Operating Systems' },
+  { id: 5, sectionName: 'Section E', classCode: 'CS105', className: 'Database Systems' },
+  { id: 6, sectionName: 'Section F', classCode: 'CS106', className: 'Web Development' },
+  { id: 7, sectionName: 'Section G', classCode: 'CS107', className: 'Software Engineering' },
+  { id: 8, sectionName: 'Section H', classCode: 'CS108', className: 'Artificial Intelligence' },
+  { id: 9, sectionName: 'Section I', classCode: 'CS109', className: 'Machine Learning' },
+  { id: 10, sectionName: 'Section J', classCode: 'CS110', className: 'Computer Networks' },
+];
+
+const StudentMasterView = () => {
   const navigate = useNavigate();
-  const [classes] = useState(demoClasses);
+  const [students] = useState(demoStudents);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
-  const [filteredClasses, setFilteredClasses] = useState(demoClasses);
+  const [filteredStudents, setFilteredStudents] = useState(demoStudents);
 
   // Options for items per page
   const itemsPerPageOptions = [10, 20, 50, 'All'];
 
-  // Handle adding a new class
-  const handleAdd = () => {
-    navigate('/master/classmaster/add');
-  };
-
-  // Handle editing a class
-  const handleEdit = (id) => {
-    console.log(`Edit class with ID: ${id}`);
-    // Implement edit logic (e.g., open a modal with ClassMaster form pre-filled)
-  };
-
-  // Handle deleting a class
-  const handleDelete = (id) => {
-    console.log(`Delete class with ID: ${id}`);
-    // Implement delete logic
-  };
-
   // Handle search
   const handleSearch = () => {
-    const filtered = classes.filter(
-      (cls) =>
-        cls.classcode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cls.classname.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = students.filter(
+      (student) =>
+        student.AdmissionNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.StudentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.ClassName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.Section.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.RollNo.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredClasses(filtered);
+    setFilteredStudents(filtered);
     setCurrentPage(1); // Reset to first page on search
   };
 
@@ -53,7 +66,7 @@ const ClassTableView = () => {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     if (e.target.value === '') {
-      setFilteredClasses(classes); // Reset to all classes if search is cleared
+      setFilteredStudents(students); // Reset to all students if search is cleared
       setCurrentPage(1);
     }
   };
@@ -65,14 +78,31 @@ const ClassTableView = () => {
     }
   };
 
+  // Handle add
+  const handleAdd = () => {
+    navigate('/master/studentmaster/add');
+  };
+
+  // Handle editing a student
+  const handleEdit = (id) => {
+    console.log(`Edit student with ID: ${id}`);
+    // Implement edit logic (e.g., navigate to edit form)
+  };
+
+  // Handle deleting a student
+  const handleDelete = (id) => {
+    console.log(`Delete student with ID: ${id}`);
+    // Implement delete logic
+  };
+
   // Calculate pagination details
-  const totalItems = filteredClasses.length;
+  const totalItems = filteredStudents.length;
   const totalPages = itemsPerPage === 'All' ? 1 : Math.ceil(totalItems / itemsPerPage);
   const startIndex = itemsPerPage === 'All' ? 0 : (currentPage - 1) * itemsPerPage;
   const currentRows =
     itemsPerPage === 'All'
-      ? filteredClasses
-      : filteredClasses.slice(startIndex, startIndex + itemsPerPage);
+      ? filteredStudents
+      : filteredStudents.slice(startIndex, startIndex + itemsPerPage);
 
   // Change page
   const handlePageChange = (page) => {
@@ -89,12 +119,12 @@ const ClassTableView = () => {
   return (
     <div className="max-w-8xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Class Master</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Student Master</h2>
         <div className="flex space-x-4">
           <div className="flex items-center">
             <input
               type="text"
-              placeholder="Search classes..."
+              placeholder="Search students..."
               value={searchTerm}
               onChange={handleSearchChange}
               onKeyPress={handleKeyPress}
@@ -119,25 +149,31 @@ const ClassTableView = () => {
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class Code</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Admission No</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Student Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Section</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Roll No</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentRows.map((cls) => (
-              <tr key={cls.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-gray-800">{cls.classcode}</td>
-                <td className="px-4 py-2 text-gray-800">{cls.classname}</td>
+            {currentRows.map((student) => (
+              <tr key={student.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 text-gray-800">{student.AdmissionNo}</td>
+                <td className="px-4 py-2 text-gray-800">{student.StudentName}</td>
+                <td className="px-4 py-2 text-gray-800">{student.ClassName}</td>
+                <td className="px-4 py-2 text-gray-800">{student.Section}</td>
+                <td className="px-4 py-2 text-gray-800">{student.RollNo}</td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => handleEdit(cls.id)}
+                    onClick={() => handleEdit(student.id)}
                     className="mr-2 bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(cls.id)}
+                    onClick={() => handleDelete(student.id)}
                     className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   >
                     Delete
@@ -147,6 +183,9 @@ const ClassTableView = () => {
             ))}
           </tbody>
         </table>
+        {filteredStudents.length === 0 && (
+          <p className="text-center text-gray-500 mt-4">No students found.</p>
+        )}
       </div>
       <div className="flex justify-between items-center mt-4">
         <div className="flex items-center space-x-2">
@@ -203,4 +242,4 @@ const ClassTableView = () => {
   );
 };
 
-export default ClassTableView;
+export default StudentMasterView;

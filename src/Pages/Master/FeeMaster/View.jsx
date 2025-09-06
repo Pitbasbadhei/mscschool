@@ -1,103 +1,82 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Sample demo data
-const demoClasses = [
-  { id: 1, classcode: 'CS101', classname: 'Introduction to Programming' },
-  { id: 2, classcode: 'MATH201', classname: 'Calculus I' },
-  { id: 3, classcode: 'ENG301', classname: 'Advanced English Literature' },
-  { id: 4, classcode: 'PHY102', classname: 'Physics Fundamentals' },
-  { id: 5, classcode: 'BIO202', classname: 'Molecular Biology' },
+const demoData = [
+  { id: 1, FeeOrderNo: 1, Classcode: 'CL001', ClassName: 'Math 101', FeeType: 'Tuition', FeeName: 'Semester Fee', FeeAmount: 500,  GLCode: 'GL001', DESCRIPT: 'Math course fee', EffectMonth: 'Jan' },
+  { id: 2, FeeOrderNo: 2, Classcode: 'CL002', ClassName: 'Physics 101', FeeType: 'Lab', FeeName: 'Lab Fee', FeeAmount: 200,  GLCode: 'GL002', DESCRIPT: 'Physics lab fee', EffectMonth: 'Feb' },
+  { id: 3, FeeOrderNo: 3, Classcode: 'CL003', ClassName: 'Chemistry 101', FeeType: 'Tuition', FeeName: 'Course Fee', FeeAmount: 600,  GLCode: 'GL003', DESCRIPT: 'Chemistry course fee', EffectMonth: 'Mar' },
+  { id: 4, FeeOrderNo: 4, Classcode: 'CL004', ClassName: 'Biology 101', FeeType: 'Lab', FeeName: 'Lab Equipment', FeeAmount: 150,  GLCode: 'GL004', DESCRIPT: 'Biology lab fee', EffectMonth: 'Apr' },
+  { id: 5, FeeOrderNo: 5, Classcode: 'CL005', ClassName: 'History 101', FeeType: 'Tuition', FeeName: 'Semester Fee', FeeAmount: 450,  GLCode: 'GL005', DESCRIPT: 'History course fee', EffectMonth: 'May' },
+  { id: 6, FeeOrderNo: 6, Classcode: 'CL006', ClassName: 'Literature 101', FeeType: 'Tuition', FeeName: 'Course Fee', FeeAmount: 400,  GLCode: 'GL006', DESCRIPT: 'Literature course fee', EffectMonth: 'Jun' },
+  { id: 7, FeeOrderNo: 7, Classcode: 'CL007', ClassName: 'Art 101', FeeType: 'Material', FeeName: 'Art Supplies', FeeAmount: 100,  GLCode: 'GL007', DESCRIPT: 'Art material fee', EffectMonth: 'Jul' },
 ];
 
-const ClassTableView = () => {
+const Feemastervew = () => {
   const navigate = useNavigate();
-  const [classes] = useState(demoClasses);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
-  const [filteredClasses, setFilteredClasses] = useState(demoClasses);
 
   // Options for items per page
   const itemsPerPageOptions = [10, 20, 50, 'All'];
 
-  // Handle adding a new class
-  const handleAdd = () => {
-    navigate('/master/classmaster/add');
-  };
+  // Calculate filtered data based on search term
+  const filteredData = demoData.filter(
+    (item) =>
+      Object.values(item).some((value) =>
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+  );
 
-  // Handle editing a class
+  // Calculate pagination details
+  const totalItems = filteredData.length;
+  const totalPages = itemsPerPage === 'All' ? 1 : Math.ceil(totalItems / itemsPerPage);
+  const startIndex = itemsPerPage === 'All' ? 0 : (currentPage - 1) * itemsPerPage;
+  const currentItems =
+    itemsPerPage === 'All'
+      ? filteredData
+      : filteredData.slice(startIndex, startIndex + itemsPerPage);
+
   const handleEdit = (id) => {
-    console.log(`Edit class with ID: ${id}`);
-    // Implement edit logic (e.g., open a modal with ClassMaster form pre-filled)
+    console.log(`Edit fee record with ID: ${id}`);
+    // Add your edit logic here
   };
 
-  // Handle deleting a class
   const handleDelete = (id) => {
-    console.log(`Delete class with ID: ${id}`);
-    // Implement delete logic
+    console.log(`Delete fee record with ID: ${id}`);
+    // Add your delete logic here
   };
 
-  // Handle search
+  const handleAdd = () => {
+    navigate('/master/feemaster/add');
+  };
+
   const handleSearch = () => {
-    const filtered = classes.filter(
-      (cls) =>
-        cls.classcode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cls.classname.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredClasses(filtered);
+    console.log(`Search for: ${searchTerm}`);
     setCurrentPage(1); // Reset to first page on search
   };
 
-  // Handle search input change
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    if (e.target.value === '') {
-      setFilteredClasses(classes); // Reset to all classes if search is cleared
-      setCurrentPage(1);
-    }
-  };
-
-  // Handle Enter key press for search
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  // Calculate pagination details
-  const totalItems = filteredClasses.length;
-  const totalPages = itemsPerPage === 'All' ? 1 : Math.ceil(totalItems / itemsPerPage);
-  const startIndex = itemsPerPage === 'All' ? 0 : (currentPage - 1) * itemsPerPage;
-  const currentRows =
-    itemsPerPage === 'All'
-      ? filteredClasses
-      : filteredClasses.slice(startIndex, startIndex + itemsPerPage);
-
-  // Change page
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  // Handle items per page change
   const handleItemsPerPageChange = (e) => {
-    const value = e.target.value === 'All' ? 'All' : parseInt(e.target.value);
-    setItemsPerPage(value);
-    setCurrentPage(1); // Reset to first page
+    const value = e.target.value;
+    setItemsPerPage(value === 'All' ? 'All' : parseInt(value));
+    setCurrentPage(1); // Reset to first page when items per page changes
   };
 
   return (
     <div className="max-w-8xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Class Master</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Fee Master</h2>
         <div className="flex space-x-4">
           <div className="flex items-center">
             <input
               type="text"
-              placeholder="Search classes..."
+              placeholder="Search fees..."
               value={searchTerm}
-              onChange={handleSearchChange}
-              onKeyPress={handleKeyPress}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="px-3 py-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
             />
             <button
@@ -119,25 +98,39 @@ const ClassTableView = () => {
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-100">
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Fee Order No</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class Code</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Class Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Fee Type</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Fee Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Fee Amount</th>
+                         <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">GL Code</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Description</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Effect Month</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentRows.map((cls) => (
-              <tr key={cls.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-gray-800">{cls.classcode}</td>
-                <td className="px-4 py-2 text-gray-800">{cls.classname}</td>
+            {currentItems.map((item) => (
+              <tr key={item.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 text-gray-800">{item.FeeOrderNo}</td>
+                <td className="px-4 py-2 text-gray-800">{item.Classcode}</td>
+                <td className="px-4 py-2 text-gray-800">{item.ClassName}</td>
+                <td className="px-4 py-2 text-gray-800">{item.FeeType}</td>
+                <td className="px-4 py-2 text-gray-800">{item.FeeName}</td>
+                <td className="px-4 py-2 text-gray-800">${item.FeeAmount}</td>
+               <td className="px-4 py-2 text-gray-800">{item.GLCode}</td>
+                <td className="px-4 py-2 text-gray-800">{item.DESCRIPT}</td>
+                <td className="px-4 py-2 text-gray-800">{item.EffectMonth}</td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => handleEdit(cls.id)}
+                    onClick={() => handleEdit(item.id)}
                     className="mr-2 bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(cls.id)}
+                    onClick={() => handleDelete(item.id)}
                     className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                   >
                     Delete
@@ -203,4 +196,4 @@ const ClassTableView = () => {
   );
 };
 
-export default ClassTableView;
+export default Feemastervew;
