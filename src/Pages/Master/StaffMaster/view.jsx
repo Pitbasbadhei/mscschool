@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const demoData = [
-  { id: 1, Rcode: 'RC001', RName: 'Concession A', RRate: 10 },
-  { id: 2, Rcode: 'RC002', RName: 'Concession B', RRate: 15 },
-  { id: 3, Rcode: 'RC003', RName: 'Concession C', RRate: 20 },
-  { id: 4, Rcode: 'RC004', RName: 'Concession D', RRate: 25 },
-  { id: 5, Rcode: 'RC005', RName: 'Concession E', RRate: 30 },
-  { id: 6, Rcode: 'RC006', RName: 'Concession F', RRate: 35 },
-  { id: 7, Rcode: 'RC007', RName: 'Concession G', RRate: 40 },
+  { id: 1, StaffCode: 'ST001', StaffName: 'John Doe', Designation: 'Manager', Department: 'Operations', GrossSalary: 75000 },
+  { id: 2, StaffCode: 'ST002', StaffName: 'Jane Smith', Designation: 'Analyst', Department: 'Finance', GrossSalary: 60000 },
+  { id: 3, StaffCode: 'ST003', StaffName: 'Emily Johnson', Designation: 'Developer', Department: 'IT', GrossSalary: 80000 },
+  { id: 4, StaffCode: 'ST004', StaffName: 'Michael Brown', Designation: 'Supervisor', Department: 'HR', GrossSalary: 65000 },
+  { id: 5, StaffCode: 'ST005', StaffName: 'Sarah Davis', Designation: 'Coordinator', Department: 'Marketing', GrossSalary: 55000 },
+  { id: 6, StaffCode: 'ST006', StaffName: 'David Wilson', Designation: 'Engineer', Department: 'IT', GrossSalary: 82000 },
+  { id: 7, StaffCode: 'ST007', StaffName: 'Laura Martinez', Designation: 'Assistant', Department: 'Operations', GrossSalary: 50000 },
 ];
 
-const ConvMasterView = () => {
+const StaffMasterView = () => {
   const navigate = useNavigate();
   const [records, setRecords] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -42,7 +42,7 @@ const ConvMasterView = () => {
 
   const handleEdit = (id) => {
     console.log(`Edit record with ID: ${id}`);
-    navigate(`/master/conv/edit/${id}`);
+    navigate(`/master/staff/edit/${id}`);
   };
 
   const handleDelete = (id) => {
@@ -51,7 +51,7 @@ const ConvMasterView = () => {
   };
 
   const handleAdd = () => {
-    navigate('/master/convmaster/add');
+    navigate('/master/staffmaster/add');
   };
 
   const handleSearch = () => {
@@ -72,7 +72,7 @@ const ConvMasterView = () => {
   return (
     <div className="max-w-8xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Concession Master</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Staff Master</h2>
         <div className="flex space-x-4">
           <div className="flex items-center">
             <input
@@ -101,18 +101,22 @@ const ConvMasterView = () => {
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Record Code</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Record Name</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Rate (%)</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Staff Code</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Staff Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Designation</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Department</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Gross Salary ($)</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentItems.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-gray-800">{item.Rcode}</td>
-                <td className="px-4 py-2 text-gray-800">{item.RName}</td>
-                <td className="px-4 py-2 text-gray-800">{item.RRate}</td>
+                <td className="px-4 py-2 text-gray-800">{item.StaffCode}</td>
+                <td className="px-4 py-2 text-gray-800">{item.StaffName}</td>
+                <td className="px-4 py-2 text-gray-800">{item.Designation}</td>
+                <td className="px-4 py-2 text-gray-800">{item.Department}</td>
+                <td className="px-4 py-2 text-gray-800">{item.GrossSalary}</td>
                 <td className="px-4 py-2">
                   <button
                     onClick={() => handleEdit(item.id)}
@@ -187,4 +191,4 @@ const ConvMasterView = () => {
   );
 };
 
-export default ConvMasterView;
+export default StaffMasterView;

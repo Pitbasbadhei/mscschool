@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const demoData = [
-  { id: 1, Rcode: 'RC001', RName: 'Concession A', RRate: 10 },
-  { id: 2, Rcode: 'RC002', RName: 'Concession B', RRate: 15 },
-  { id: 3, Rcode: 'RC003', RName: 'Concession C', RRate: 20 },
-  { id: 4, Rcode: 'RC004', RName: 'Concession D', RRate: 25 },
-  { id: 5, Rcode: 'RC005', RName: 'Concession E', RRate: 30 },
-  { id: 6, Rcode: 'RC006', RName: 'Concession F', RRate: 35 },
-  { id: 7, Rcode: 'RC007', RName: 'Concession G', RRate: 40 },
+  { id: 1, SportCode: 'SC001', SportName: 'Football', FeeType: 'Annual', Rate: 100 },
+  { id: 2, SportCode: 'SC002', SportName: 'Basketball', FeeType: 'Monthly', Rate: 50 },
+  { id: 3, SportCode: 'SC003', SportName: 'Tennis', FeeType: 'Annual', Rate: 120 },
+  { id: 4, SportCode: 'SC004', SportName: 'Swimming', FeeType: 'Monthly', Rate: 60 },
+  { id: 5, SportCode: 'SC005', SportName: 'Cricket', FeeType: 'Annual', Rate: 90 },
+  { id: 6, SportCode: 'SC006', SportName: 'Volleyball', FeeType: 'Monthly', Rate: 45 },
+  { id: 7, SportCode: 'SC007', SportName: 'Badminton', FeeType: 'Annual', Rate: 80 },
 ];
 
-const ConvMasterView = () => {
+const SportMasterView = () => {
   const navigate = useNavigate();
   const [records, setRecords] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -42,7 +42,7 @@ const ConvMasterView = () => {
 
   const handleEdit = (id) => {
     console.log(`Edit record with ID: ${id}`);
-    navigate(`/master/conv/edit/${id}`);
+    navigate(`/master/sport/edit/${id}`);
   };
 
   const handleDelete = (id) => {
@@ -51,7 +51,7 @@ const ConvMasterView = () => {
   };
 
   const handleAdd = () => {
-    navigate('/master/convmaster/add');
+    navigate('/master/sportmaster/add');
   };
 
   const handleSearch = () => {
@@ -72,7 +72,7 @@ const ConvMasterView = () => {
   return (
     <div className="max-w-8xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Concession Master</h2>
+        <h2 className="text-2xl font-bold text-gray-800">Sport Master</h2>
         <div className="flex space-x-4">
           <div className="flex items-center">
             <input
@@ -101,18 +101,20 @@ const ConvMasterView = () => {
         <table className="min-w-full table-auto">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Record Code</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Record Name</th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Rate (%)</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Sport Code</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Sport Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Fee Type</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Rate ($)</th>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentItems.map((item) => (
               <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-gray-800">{item.Rcode}</td>
-                <td className="px-4 py-2 text-gray-800">{item.RName}</td>
-                <td className="px-4 py-2 text-gray-800">{item.RRate}</td>
+                <td className="px-4 py-2 text-gray-800">{item.SportCode}</td>
+                <td className="px-4 py-2 text-gray-800">{item.SportName}</td>
+                <td className="px-4 py-2 text-gray-800">{item.FeeType}</td>
+                <td className="px-4 py-2 text-gray-800">{item.Rate}</td>
                 <td className="px-4 py-2">
                   <button
                     onClick={() => handleEdit(item.id)}
@@ -187,4 +189,4 @@ const ConvMasterView = () => {
   );
 };
 
-export default ConvMasterView;
+export default SportMasterView;

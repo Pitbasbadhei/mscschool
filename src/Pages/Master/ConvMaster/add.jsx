@@ -45,9 +45,8 @@ const ConvMasteradd = () => {
   return (
     <div className="max-w-8xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Record</h2>
-      <div className="space-y-6">
-        {/* First Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
           <div>
             <label htmlFor="Rcode" className="block text-sm font-medium text-gray-700 mb-1">
               Record Code
@@ -78,9 +77,6 @@ const ConvMasteradd = () => {
             />
             {errors.RName && <p className="text-red-500 text-sm mt-1">{errors.RName}</p>}
           </div>
-        </div>
-        {/* Second Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
             <label htmlFor="RRate" className="block text-sm font-medium text-gray-700 mb-1">
               Rate
@@ -97,21 +93,22 @@ const ConvMasteradd = () => {
             {errors.RRate && <p className="text-red-500 text-sm mt-1">{errors.RRate}</p>}
           </div>
         </div>
-      </div>
-      <div className="mt-6 flex justify-end space-x-4">
-        <button
-          onClick={handleCancel}
-          className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleSubmit}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        >
-          Save
-        </button>
-      </div>
+        <div className="flex justify-end space-x-4">
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -37,6 +37,14 @@ import Convmasterview from './Pages/Master/ConvMaster/view';
 import Convmasteradd from './Pages/Master/ConvMaster/add';
 import Convmastermodify from './Pages/Master/ConvMaster/modify';
 
+import SportMasterview from './Pages//master/SportMaster/view';
+import SportMasteradd from './Pages/Master/SportMaster/add';
+import SportMastermodify from './Pages/Master/SportMaster/modify';
+
+import StaffMasterview from './Pages/Master/StaffMaster/view';
+import StaffMasteradd from './Pages/Master/StaffMaster/add';
+import StaffMastermodify from './Pages/Master/StaffMaster/modify';
+  
 
 
 
@@ -84,6 +92,15 @@ const App = () => {
             <Route path="/master/convMaster/view" element={<Convmasterview />} />
             <Route path="/master/convMaster/add" element={<Convmasteradd />} />
             <Route path="/master/convMaster/modify" element={<Convmastermodify />} />
+
+            <Route path="/master/SportMaster/view" element={<SportMasterview />} />
+            <Route path="/master/SportMaster/add" element={<SportMasteradd />} />
+            <Route path="/master/SportMaster/modify" element={<SportMastermodify />} />
+
+            <Route path="/master/Staffmaster/view" element={<StaffMasterview />} />
+            <Route path="/master/Staffmaster/add" element={<StaffMasteradd />} />
+            <Route path="/master/Staffmaster/modify" element={<StaffMastermodify />} />
+
 
          
             <Route path="/entry" element={<Entry />} />
