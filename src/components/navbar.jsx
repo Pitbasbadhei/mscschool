@@ -162,9 +162,10 @@ const Navbar = () => {
     {
       name: 'Setup',
       subItems: [
-        { name: 'User Master', path: '/setup/user-master' },
-        { name: 'Security Rights', path: '/setup/security-rights' },
+        { name: 'User Master', path: '/Setup/UserMaster/view'},
+        { name: 'Security Rights', path: '/Setup/SecurityRight/view' },
         { name: 'Document Number', path: '/setup/document-number' },
+        { name: 'Backup Settings', path: '/setup/backup-settings' },
       ],
       icon: icons.setup,
     },

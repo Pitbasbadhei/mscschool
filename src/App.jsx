@@ -44,7 +44,16 @@ import SportMastermodify from './Pages/Master/SportMaster/modify';
 import StaffMasterview from './Pages/Master/StaffMaster/view';
 import StaffMasteradd from './Pages/Master/StaffMaster/add';
 import StaffMastermodify from './Pages/Master/StaffMaster/modify';
-  
+
+import UserMasterView from './Pages/Setup/UserMaster/view';
+import UserMasterAdd from './Pages/Setup/UserMaster/add';
+import UserMasterModify from './Pages/Setup/UserMaster/modify';
+
+import SecurityRightsView from './Pages/Setup/SecurityRight/view';
+import SecurityRightsAdd from './Pages/Setup/SecurityRight/add';
+import SecurityRightsEdit from './Pages/Setup/SecurityRight/modify';
+
+
 
 
 
@@ -101,6 +110,7 @@ const App = () => {
             <Route path="/master/Staffmaster/add" element={<StaffMasteradd />} />
             <Route path="/master/Staffmaster/modify" element={<StaffMastermodify />} />
 
+                     
 
          
             <Route path="/entry" element={<Entry />} />
@@ -109,6 +119,16 @@ const App = () => {
             <Route path="/examination" element={<Examination />} />
             <Route path="/report" element={<Report />} />
             <Route path="/setup" element={<Setup />} />
+
+            <Route path="/setup/usermaster/view" element={<UserMasterView />} /> 
+            <Route path="/setup/usermaster/add" element={<UserMasterAdd />} />
+            <Route path="/setup/user/edit/:id" element={<UserMasterModify />} />
+
+            <Route path="/Setup/SecurityRight/view" element={<SecurityRightsView />} />
+            <Route path="/Setup/SecurityRight/add" element={<SecurityRightsAdd />} />
+            <Route path="/Setup/SecurityRight/modify" element={<SecurityRightsEdit />} />
+              
+
             <Route path="/housekeep" element={<HouseKeep />} />
           </Routes>
         </div>
